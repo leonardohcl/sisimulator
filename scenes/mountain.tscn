@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://cy871hf2r6sql"]
+
+[ext_resource type="Script" uid="uid://dekeksop2ndxp" path="res://scripts/mountain.gd" id="1_wb4uc"]
+[ext_resource type="Texture2D" uid="uid://by2jt8i51nmk7" path="res://images/floor.png" id="2_mh5ic"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mh5ic"]
+size = Vector2(30, 300)
+
+[node name="Mountain" type="Node2D"]
+script = ExtResource("1_wb4uc")
+
+[node name="Slope" type="StaticBody2D" parent="."]
+collision_mask = 0
+
+[node name="Texture" type="Polygon2D" parent="Slope"]
+unique_name_in_owner = true
+texture = ExtResource("2_mh5ic")
+
+[node name="Collider" type="CollisionPolygon2D" parent="Slope"]
+unique_name_in_owner = true
+
+[node name="Goal Area" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 4
+collision_mask = 2
+
+[node name="Goal Collider" type="CollisionShape2D" parent="Goal Area"]
+unique_name_in_owner = true
+position = Vector2(0, -151)
+shape = SubResource("RectangleShape2D_mh5ic")
+debug_color = Color(0.578351, 0.551634, 0.0856506, 0.42)
+
+[connection signal="body_entered" from="Goal Area" to="." method="_on_goal_area_body_entered"]

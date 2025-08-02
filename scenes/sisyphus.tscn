@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://ci1c4yye26i75"]
+
+[ext_resource type="Texture2D" uid="uid://bl22abl4fxn2h" path="res://images/sisyphus.png" id="1_b0x87"]
+[ext_resource type="Script" uid="uid://x5vybq43iwdu" path="res://scripts/sisyphus.gd" id="1_o7kd7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o7kd7"]
+radius = 28.0045
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xkhxw"]
+radius = 41.0122
+
+[node name="Sisyphus" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 3
+motion_mode = 1
+floor_stop_on_slope = false
+floor_constant_speed = true
+floor_max_angle = 1.0472
+platform_on_leave = 2
+script = ExtResource("1_o7kd7")
+
+[node name="Sisyphus" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_b0x87")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_left = 0
+limit_bottom = 600
+
+[node name="Feet Collider" type="CollisionShape2D" parent="."]
+position = Vector2(0, 54)
+shape = SubResource("CircleShape2D_o7kd7")
+
+[node name="Hand Collider" type="CollisionShape2D" parent="."]
+position = Vector2(36, -31)
+shape = SubResource("CircleShape2D_xkhxw")
+debug_color = Color(0.288528, 0.615513, 0.391458, 0.42)

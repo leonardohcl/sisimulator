@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://bsx2dkyhdb32x"]
+
+[ext_resource type="Script" uid="uid://dke2to43ulhxl" path="res://scripts/game.gd" id="1_uwrxv"]
+[ext_resource type="PackedScene" uid="uid://cy871hf2r6sql" path="res://scenes/mountain.tscn" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://ci1c4yye26i75" path="res://scenes/sisyphus.tscn" id="3_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://0u14cb06hmf5" path="res://scenes/bolder.tscn" id="4_lbhrr"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1_uwrxv")
+speed = 250.0
+
+[node name="Mountain" parent="." instance=ExtResource("2_yqjtg")]
+position = Vector2(0, 576)
+blocks_count = 5
+
+[node name="Sisyphus" parent="." instance=ExtResource("3_lnu2h")]
+position = Vector2(32, 512)
+
+[node name="Bolder" parent="." instance=ExtResource("4_lbhrr")]
+position = Vector2(256, 485)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Average Label" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_right = 118.0
+offset_bottom = 23.0
+text = "0 pushes/cycle"
+
+[node name="Time Label" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "0s"
+horizontal_alignment = 2
