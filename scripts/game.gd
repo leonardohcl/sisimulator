@@ -8,19 +8,30 @@ var ellapsed_seconds := 0
 @onready var mountain: Mountain = $Mountain
 @onready var average_label: Label = %"Average Label"
 @onready var time_label: Label = %"Time Label"
+@onready var dialog_manager:DialogManager = %"Dialog Manager"
+
+func set_paused(is_paused := true):
+	get_tree().paused = is_paused
 
 func _ready() -> void:
-	_generate_rand_event()
-	
 	_update_average_label()
 	PushCounter.cycle_ended.connect(_update_average_label)
 	_start_time_tracking()
-	mountain.slope_created.connect(_handle_new_slope_creates)
+	_start_dialog_handling()
+	_start_mountain_control()
+
+func _start_mountain_control():
+	mountain.slope_created.connect(_handle_new_slope_created)
 
 func _game_over():
 	sisyphus.set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
 	await get_tree().create_timer(2.0).timeout
 	get_tree().reload_current_scene()
+
+func _start_dialog_handling():
+	dialog_manager.dialog_opened.connect(func(): set_paused(true))
+	dialog_manager.dialog_closed.connect(func(): set_paused(false))
+	dialog_manager.write("omar", "henlo")
 
 func _start_time_tracking():
 	var timer = Timer.new()
@@ -72,6 +83,5 @@ func _generate_rand_event():
 	_generate_rand_event()
 
 ## Does something when a new mountain section (Slope) is created
-func _handle_new_slope_creates(slope:Slope):
+func _handle_new_slope_created(slope:Slope):
 	pass
-
