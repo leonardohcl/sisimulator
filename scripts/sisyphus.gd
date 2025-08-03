@@ -7,6 +7,13 @@ const GRAVITY_FORCE := 20.0
 @export var strength := 30.0
 @export var speed := 100.0
 
+func think(content: String, duration := 5.0):
+	if %"Tought Bubble".visible: return
+	%"Tought Label".text = content
+	%"Tought Bubble".visible = true
+	await get_tree().create_timer(duration).timeout
+	%"Tought Bubble".visible = false
+
 func _physics_process(_delta: float) -> void:
 	_move()
 	_apply_force_to_collisions()

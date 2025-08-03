@@ -19,6 +19,7 @@ func _ready() -> void:
 	_start_time_tracking()
 	_start_dialog_handling()
 	_start_mountain_control()
+	_thought()
 
 func _start_mountain_control():
 	mountain.slope_created.connect(_handle_new_slope_created)
@@ -31,7 +32,8 @@ func _game_over():
 func _start_dialog_handling():
 	dialog_manager.dialog_opened.connect(func(): set_paused(true))
 	dialog_manager.dialog_closed.connect(func(): set_paused(false))
-	dialog_manager.write("omar", "henlo")
+	#dialog_manager.write("name", "henlo world")
+	#var ans = await dialog_manager.ask("?", "r u ok?", ['y', 'n'])
 
 func _start_time_tracking():
 	var timer = Timer.new()
@@ -72,7 +74,7 @@ func _set_bird():
 	bolder.mass = 1
 
 func _thought():
-	print("sisyphus has a thought")
+	sisyphus.think("sisyphus has a thought", 3.0)
 	
 func _generate_rand_event():
 	# remove later:
