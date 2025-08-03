@@ -22,7 +22,7 @@ var allow_events := true
 func add_trigger_at(percentage: float, trigger_radius := 25.0, trigger_with_bolder := true, destroy_on_trigger := true) -> EventTrigger:
 	if !allow_events: return
 	var pos = clampf(percentage, 0, 1)
-	var idx = clampi(round(_points.size() * pos) - 1, 0, _points.size() - 1)
+	var idx = clampi(round(_points.size() * pos) - 1, 1, _points.size() - 1)
 	var trigger = EventTrigger.new()
 	trigger.activation_trigger_radius = trigger_radius
 	trigger.trigger_with_bolder = trigger_with_bolder

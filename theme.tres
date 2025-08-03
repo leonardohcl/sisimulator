@@ -1,0 +1,47 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://blw4k0tacktvo"]
+
+[ext_resource type="FontFile" uid="uid://dbmavqtiocjji" path="res://fonts/Quattrocento_Sans/QuattrocentoSans-Bold.ttf" id="1_e1x85"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e1x85"]
+bg_color = Color(0.772549, 0.941176, 0.960784, 1)
+border_width_left = 10
+border_width_top = 5
+border_width_right = 10
+border_width_bottom = 5
+border_color = Color(0.772549, 0.941176, 0.960784, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cjfk0"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 10
+border_width_top = 5
+border_width_right = 10
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vj6dk"]
+bg_color = Color(0.254902, 0.560784, 0.541176, 1)
+border_width_left = 10
+border_width_top = 5
+border_width_right = 10
+border_width_bottom = 5
+border_color = Color(0.254902, 0.560784, 0.541176, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m88cy"]
+bg_color = Color(1, 1, 1, 1)
+
+[resource]
+default_font = ExtResource("1_e1x85")
+Button/colors/font_color = Color(0.329412, 0.615686, 0.580392, 1)
+Button/colors/font_focus_color = Color(0, 0, 0.0352941, 1)
+Button/colors/font_hover_color = Color(0, 0, 0.0352941, 1)
+Button/styles/hover = SubResource("StyleBoxFlat_e1x85")
+Button/styles/normal = SubResource("StyleBoxFlat_cjfk0")
+Button/styles/pressed = SubResource("StyleBoxFlat_vj6dk")
+FlatButton/colors/font_color = Color(1, 1, 1, 1)
+FlatButton/colors/font_hover_color = Color(1, 1, 1, 1)
+FlatButton/colors/font_outline_color = Color(0.0235294, 0.376471, 0.435294, 1)
+FlatButton/constants/outline_size = 3
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_outline_color = Color(0.290196, 0.592157, 0.560784, 1)
+Label/constants/outline_size = 2
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_m88cy")

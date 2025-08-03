@@ -1,7 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://ci1c4yye26i75"]
+[gd_scene load_steps=11 format=3 uid="uid://ci1c4yye26i75"]
 
 [ext_resource type="Script" uid="uid://x5vybq43iwdu" path="res://scripts/sisyphus.gd" id="1_o7kd7"]
 [ext_resource type="Texture2D" uid="uid://ci5yen7rdwcr1" path="res://images/spritesheet.png" id="2_o7kd7"]
+[ext_resource type="Theme" uid="uid://blw4k0tacktvo" path="res://theme.tres" id="2_qkx22"]
+[ext_resource type="PackedScene" uid="uid://cvurdim0q86l5" path="res://scenes/stick.tscn" id="3_xkhxw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d2hov"]
+bg_color = Color(1, 1, 1, 0.75)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="Animation" id="Animation_xkhxw"]
 length = 0.001
@@ -80,6 +89,35 @@ floor_max_angle = 1.0472
 platform_on_leave = 2
 script = ExtResource("1_o7kd7")
 
+[node name="Tought Bubble" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -47.0
+offset_top = -111.0
+offset_right = 39.0
+offset_bottom = -85.0
+grow_horizontal = 0
+theme = ExtResource("2_qkx22")
+theme_override_styles/panel = SubResource("StyleBoxFlat_d2hov")
+
+[node name="MarginContainer" type="MarginContainer" parent="Tought Bubble"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Tought Label" type="Label" parent="Tought Bubble/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+text = "lorem"
+
 [node name="Sprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 scale = Vector2(0.5, 0.5)
@@ -93,12 +131,8 @@ libraries = {
 }
 autoplay = "Shaky"
 
-[node name="Polygon2D" type="Polygon2D" parent="Sprite"]
-z_index = -1
+[node name="Stick" parent="Sprite" instance=ExtResource("3_xkhxw")]
 position = Vector2(-30, 40)
-rotation = -0.00286636
-color = Color(0.653751, 0.602912, 0.462085, 1)
-polygon = PackedVector2Array(0, 225, 9, 225, 9, 0, 0, 0)
 
 [node name="Feet Collider" type="CollisionShape2D" parent="."]
 position = Vector2(-23, 30)
@@ -108,16 +142,3 @@ shape = SubResource("CircleShape2D_o7kd7")
 position = Vector2(18, -34)
 shape = SubResource("CircleShape2D_xkhxw")
 debug_color = Color(0.288528, 0.615513, 0.391458, 0.42)
-
-[node name="Tought Bubble" type="PanelContainer" parent="."]
-unique_name_in_owner = true
-visible = false
-z_index = 1
-offset_left = -130.0
-offset_top = -80.0
-offset_right = -31.0
-offset_bottom = -40.0
-
-[node name="Tought Label" type="Label" parent="Tought Bubble"]
-unique_name_in_owner = true
-layout_mode = 2

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bsx2dkyhdb32x"]
+[gd_scene load_steps=14 format=3 uid="uid://bsx2dkyhdb32x"]
 
 [ext_resource type="Script" uid="uid://dke2to43ulhxl" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="Texture2D" uid="uid://bbg784k451q4n" path="res://images/parallax1.png" id="2_p57ef"]
@@ -8,6 +8,12 @@
 [ext_resource type="PackedScene" uid="uid://ci1c4yye26i75" path="res://scenes/sisyphus.tscn" id="3_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://0u14cb06hmf5" path="res://scenes/bolder.tscn" id="4_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://b8g85bylulksd" path="res://scenes/dialog_manager.tscn" id="5_iywne"]
+[ext_resource type="Theme" uid="uid://blw4k0tacktvo" path="res://theme.tres" id="8_kvpfn"]
+[ext_resource type="Texture2D" uid="uid://cvrbcub3l6gr8" path="res://images/TitleBackdrop.png" id="9_vtaks"]
+[ext_resource type="Texture2D" uid="uid://2u42vwlelepb" path="res://images/Title.png" id="10_kvpfn"]
+[ext_resource type="AudioStream" uid="uid://cbxqgcv5j8vdr" path="res://rolling-through-shimmering-harp-harmony_120bpm_A_minor - slowed-muffled-sem-reverb.wav" id="12_dinhu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dinhu"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_uwrxv")
@@ -61,7 +67,7 @@ position = Vector2(34, 431)
 unique_name_in_owner = true
 position = Vector2(-2, 498)
 max_slopes = 20
-blocks_count = 10
+blocks_count = 25
 max_block_size = 500.0
 max_block_angle = 35.0
 
@@ -70,10 +76,21 @@ offset_left = 70.0
 offset_top = 347.0
 offset_right = 237.0
 offset_bottom = 370.0
+theme = ExtResource("8_kvpfn")
 text = "Press \"space\" to push"
 
 [node name="UI" type="CanvasLayer" parent="."]
 process_mode = 3
+
+[node name="Darkness" type="ColorRect" parent="UI"]
+visible = false
+z_index = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="Average Label" type="Label" parent="UI"]
 unique_name_in_owner = true
@@ -83,6 +100,7 @@ anchor_bottom = 1.0
 offset_top = -23.0
 offset_right = 118.0
 grow_vertical = 0
+theme = ExtResource("8_kvpfn")
 text = "0 push/s"
 
 [node name="Time Label" type="Label" parent="UI"]
@@ -96,6 +114,7 @@ offset_left = -40.0
 offset_top = -23.0
 grow_horizontal = 0
 grow_vertical = 0
+theme = ExtResource("8_kvpfn")
 text = "0s"
 horizontal_alignment = 2
 
@@ -110,23 +129,38 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("8_kvpfn")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/Menu"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="UI/Menu/VBoxContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="UI/Menu/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 48
-text = "No way 
-but up"
-horizontal_alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="UI/Menu/VBoxContainer/CenterContainer"]
+layout_mode = 2
+texture = ExtResource("9_vtaks")
+
+[node name="TextureRect" type="TextureRect" parent="UI/Menu/VBoxContainer/CenterContainer"]
+layout_mode = 2
+texture = ExtResource("10_kvpfn")
 
 [node name="HSeparator" type="HSeparator" parent="UI/Menu/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 50
+theme_override_styles/separator = SubResource("StyleBoxEmpty_dinhu")
 
 [node name="Start Game Button" type="Button" parent="UI/Menu/VBoxContainer"]
 layout_mode = 2
-text = "Play Game
-"
+theme_type_variation = &"FlatButton"
+theme_override_font_sizes/font_size = 28
+text = "PLAY GAME"
+flat = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = ExtResource("12_dinhu")
+autoplay = true
 
 [connection signal="pressed" from="UI/Menu/VBoxContainer/Start Game Button" to="." method="_on_start_game_button_pressed"]
+[connection signal="finished" from="AudioStreamPlayer2D" to="AudioStreamPlayer2D" method="play"]

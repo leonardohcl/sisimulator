@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cvurdim0q86l5"]
+
+[node name="Stick" type="Polygon2D"]
+show_behind_parent = true
+rotation = -0.00286636
+color = Color(0.653751, 0.602912, 0.462085, 1)
+polygon = PackedVector2Array(0, 1200, 9, 1200, 9, 0, 0, 0)

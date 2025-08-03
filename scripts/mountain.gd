@@ -15,10 +15,17 @@ var slopes: Array[Slope]
 var thresholds_count := 0
 
 func _ready() -> void:
+	generate()
+
+func generate():
+	slopes = []
+	thresholds_count = 0
+	for child in get_children():
+		child.queue_free()
 	await _generate_slope(true, false)
 	for x in max_slopes - 1:
 		await _generate_slope()
-
+		
 func _generate_slope(is_plateau := false, allow_events := true):
 	if slopes.size() >= max_slopes:
 		_remove_oldest_slope()

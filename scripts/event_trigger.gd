@@ -17,6 +17,7 @@ func _create_collider():
 	shape.radius = activation_trigger_radius
 	collider.shape = shape
 	add_child(collider)
+	triggered.connect(func(): collider.set_deferred("disabled", destroy_on_trigger))
 
 func _setup_collision_detection():
 	set_collision_layer_value(1,false)
@@ -28,5 +29,3 @@ func _handle_body_entered(body:Node2D):
 	var is_triggered =  (body is Bolder and trigger_with_bolder) or body is Sisiphus
 	if is_triggered: 
 		triggered.emit()
-		if destroy_on_trigger:
-			queue_free()
