@@ -1,7 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bsx2dkyhdb32x"]
+[gd_scene load_steps=9 format=3 uid="uid://bsx2dkyhdb32x"]
 
 [ext_resource type="Script" uid="uid://dke2to43ulhxl" path="res://scripts/game.gd" id="1_uwrxv"]
+[ext_resource type="Texture2D" uid="uid://bbg784k451q4n" path="res://images/parallax1.png" id="2_p57ef"]
+[ext_resource type="Texture2D" uid="uid://dmqfo1cx5etv3" path="res://images/parallax2.png" id="2_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://cy871hf2r6sql" path="res://scenes/mountain.tscn" id="2_yqjtg"]
+[ext_resource type="Texture2D" uid="uid://bp52eqf546n22" path="res://images/parallax3.png" id="3_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://ci1c4yye26i75" path="res://scenes/sisyphus.tscn" id="3_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://0u14cb06hmf5" path="res://scenes/bolder.tscn" id="4_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://b8g85bylulksd" path="res://scenes/dialog_manager.tscn" id="5_iywne"]
@@ -9,14 +12,65 @@
 [node name="Game" type="Node"]
 script = ExtResource("1_uwrxv")
 
-[node name="Mountain" parent="." instance=ExtResource("2_yqjtg")]
+[node name="Camera" type="Camera2D" parent="."]
+process_mode = 3
+position = Vector2(2, 50)
+limit_left = 0
+limit_bottom = 600
+limit_smoothed = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+
+[node name="Game Core" type="Node" parent="."]
+
+[node name="Background" type="Node2D" parent="Game Core"]
+z_index = -2
+
+[node name="Parallax2D2" type="Parallax2D" parent="Game Core/Background"]
+scroll_scale = Vector2(0.001, 0.05)
+
+[node name="Sprite2D" type="Sprite2D" parent="Game Core/Background/Parallax2D2"]
+position = Vector2(817, 248)
+texture = ExtResource("3_0tnpc")
+
+[node name="Parallax2D3" type="Parallax2D" parent="Game Core/Background"]
+scroll_scale = Vector2(0.025, 0.1)
+
+[node name="Sprite2D" type="Sprite2D" parent="Game Core/Background/Parallax2D3"]
+self_modulate = Color(0.11, 0.822, 1, 0.745098)
+position = Vector2(423, 249)
+texture = ExtResource("2_u5sy4")
+
+[node name="Parallax2D" type="Parallax2D" parent="Game Core/Background"]
+scroll_scale = Vector2(0.1, 0.1)
+
+[node name="Sprite2D" type="Sprite2D" parent="Game Core/Background/Parallax2D"]
+self_modulate = Color(0.19, 1, 0.973, 1)
+position = Vector2(452, 249)
+texture = ExtResource("2_p57ef")
+
+[node name="Bolder" parent="Game Core" instance=ExtResource("4_lbhrr")]
+unique_name_in_owner = true
+position = Vector2(211, 437)
+
+[node name="Sisyphus" parent="Game Core" instance=ExtResource("3_lnu2h")]
+unique_name_in_owner = true
+position = Vector2(34, 431)
+
+[node name="Mountain" parent="Game Core" instance=ExtResource("2_yqjtg")]
+unique_name_in_owner = true
 position = Vector2(-2, 498)
+max_slopes = 20
+blocks_count = 10
+max_block_size = 500.0
+max_block_angle = 35.0
 
-[node name="Bolder" parent="." instance=ExtResource("4_lbhrr")]
-position = Vector2(256, 376)
-
-[node name="Sisyphus" parent="." instance=ExtResource("3_lnu2h")]
-position = Vector2(32, 403)
+[node name="Label" type="Label" parent="Game Core"]
+offset_left = 70.0
+offset_top = 347.0
+offset_right = 237.0
+offset_bottom = 370.0
+text = "Press \"space\" to push"
 
 [node name="UI" type="CanvasLayer" parent="."]
 process_mode = 3
@@ -29,7 +83,7 @@ anchor_bottom = 1.0
 offset_top = -23.0
 offset_right = 118.0
 grow_vertical = 0
-text = "0 pushes/cycle"
+text = "0 push/s"
 
 [node name="Time Label" type="Label" parent="UI"]
 unique_name_in_owner = true
@@ -48,3 +102,31 @@ horizontal_alignment = 2
 [node name="Dialog Manager" parent="UI" instance=ExtResource("5_iywne")]
 unique_name_in_owner = true
 visible = false
+
+[node name="Menu" type="CenterContainer" parent="UI"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Menu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Menu/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "No way 
+but up"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="UI/Menu/VBoxContainer"]
+layout_mode = 2
+
+[node name="Start Game Button" type="Button" parent="UI/Menu/VBoxContainer"]
+layout_mode = 2
+text = "Play Game
+"
+
+[connection signal="pressed" from="UI/Menu/VBoxContainer/Start Game Button" to="." method="_on_start_game_button_pressed"]

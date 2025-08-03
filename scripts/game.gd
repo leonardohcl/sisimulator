@@ -3,15 +3,17 @@ class_name Game
 
 var ellapsed_seconds := 0
 
-@onready var sisyphus: Node2D = $Sisyphus
-@onready var bolder: Bolder = $Bolder
-@onready var mountain: Mountain = $Mountain
+@onready var sisyphus: Node2D = %Sisyphus
+@onready var bolder: Bolder = %Bolder
+@onready var mountain: Mountain = %Mountain
 @onready var average_label: Label = %"Average Label"
 @onready var time_label: Label = %"Time Label"
 @onready var dialog_manager:DialogManager = %"Dialog Manager"
+@onready var camera: Camera2D = $Camera
+@onready var menu: CenterContainer = %Menu
 
 func set_paused(is_paused := true):
-	get_tree().paused = is_paused
+	$"Game Core".set_deferred("process_mode", Node.PROCESS_MODE_DISABLED if is_paused else Node.PROCESS_MODE_INHERIT)
 
 func _ready() -> void:
 	_update_average_label()
@@ -19,7 +21,7 @@ func _ready() -> void:
 	_start_time_tracking()
 	_start_dialog_handling()
 	_start_mountain_control()
-	_thought()
+	set_paused(true)
 
 func _start_mountain_control():
 	mountain.slope_created.connect(_handle_new_slope_created)
@@ -44,7 +46,7 @@ func _start_time_tracking():
 	add_child(timer)
 	
 func _update_average_label():
-	average_label.text = "%.1f pushes/cycle" % PushCounter.average()
+	average_label.text = "%.1f push/s" % PushCounter.average()
 
 func _add_second():
 	ellapsed_seconds += 1
@@ -57,27 +59,47 @@ func _start_rain():
 	bolder.mass = 1
 	
 func _receive_energy():
-	if randf() > 0.5:
-		print("real redbull")
-		sisyphus.strength = 60
-		await get_tree().create_timer(4).timeout
+	var ans = await dialog_manager.ask("Energy drink man", "Want a sip?", ["yes", "no"])
+	if ans == 0:
+		if randf() > 0.5:
+			print("real redbull")
+			sisyphus.strength = 60
+			await get_tree().create_timer(4).timeout
+		else:
+			print("fake redbull")
+			# show failed msg?
+
+func animate_bird(is_arriving: bool):
+	if is_arriving:
+		print("heavy ahh bird")
+		var bird = Label.new()
+		bird.text = "🐦‍"
+		bolder.add_child(bird)
 	else:
-		print("fake redbull")
-		# show failed msg?
+		print("bird flew")
+		for child in bolder.get_children():
+			if child is Label:
+				child.queue_free()
 		
+
 func _set_bird():
-	print("heavy ahh bird")
-	bolder.mass = 5
+	bolder.set_imovable(true)
+	animate_bird(true)
 	for i in 5:
 		await PushCounter.push_added
-	print("bird flew")
-	bolder.mass = 1
+	animate_bird(false)
+	bolder.set_imovable(false)
 
 func _thought():
 	sisyphus.think("sisyphus has a thought", 3.0)
 	
 func _generate_rand_event() -> Callable:
-	var events = [_start_rain, _receive_energy, _set_bird, _thought] #_cerberus, _persephone, _orpheus, _sleep, _reach_top]
+	var events = [
+		_start_rain, 
+		_receive_energy, 
+		_set_bird, 
+		_thought
+	] #_cerberus, _persephone, _orpheus, _sleep, _reach_top]
 	return events.pick_random()
 
 ## Does something when a new mountain section (Slope) is created
@@ -86,3 +108,15 @@ func _handle_new_slope_created(slope:Slope):
 	var event = _generate_rand_event()
 	var trigger = slope.add_trigger_at(randf())
 	trigger.triggered.connect(event)
+
+
+func _on_start_game_button_pressed() -> void:
+	var duration = 2.0
+	var tween = get_tree().create_tween()
+	tween.parallel().tween_property(menu, "modulate", Color(0,0,0,0), duration)
+	tween.parallel().tween_property(camera, "global_position", sisyphus.global_position, duration)
+	await tween.finished
+	camera.reparent(bolder)
+	camera.position = Vector2.ZERO
+	menu.visible = false
+	set_paused(false)

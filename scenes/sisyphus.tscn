@@ -1,7 +1,68 @@
-[gd_scene load_steps=5 format=3 uid="uid://ci1c4yye26i75"]
+[gd_scene load_steps=8 format=3 uid="uid://ci1c4yye26i75"]
 
-[ext_resource type="Texture2D" uid="uid://bl22abl4fxn2h" path="res://images/sisyphus.png" id="1_b0x87"]
 [ext_resource type="Script" uid="uid://x5vybq43iwdu" path="res://scripts/sisyphus.gd" id="1_o7kd7"]
+[ext_resource type="Texture2D" uid="uid://ci5yen7rdwcr1" path="res://images/spritesheet.png" id="2_o7kd7"]
+
+[sub_resource type="Animation" id="Animation_xkhxw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_o7kd7"]
+resource_name = "Shaky"
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.26, 0.49, 0.74, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-1.061, -1), Vector2(-2, 0), Vector2(0.451, 1), Vector2(3, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.37, 0.81),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.13439, -0.0314159]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qkx22"]
+_data = {
+&"RESET": SubResource("Animation_xkhxw"),
+&"Shaky": SubResource("Animation_o7kd7")
+}
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_o7kd7"]
 radius = 28.0045
@@ -19,30 +80,43 @@ floor_max_angle = 1.0472
 platform_on_leave = 2
 script = ExtResource("1_o7kd7")
 
-[node name="Sisyphus" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_b0x87")
+texture = ExtResource("2_o7kd7")
+hframes = 2
+vframes = 2
 
-[node name="Camera2D" type="Camera2D" parent="."]
-limit_left = 0
-limit_bottom = 600
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
+libraries = {
+&"": SubResource("AnimationLibrary_qkx22")
+}
+autoplay = "Shaky"
+
+[node name="Polygon2D" type="Polygon2D" parent="Sprite"]
+z_index = -1
+position = Vector2(-30, 40)
+rotation = -0.00286636
+color = Color(0.653751, 0.602912, 0.462085, 1)
+polygon = PackedVector2Array(0, 225, 9, 225, 9, 0, 0, 0)
 
 [node name="Feet Collider" type="CollisionShape2D" parent="."]
-position = Vector2(0, 54)
+position = Vector2(-23, 30)
 shape = SubResource("CircleShape2D_o7kd7")
 
 [node name="Hand Collider" type="CollisionShape2D" parent="."]
-position = Vector2(34, -44)
+position = Vector2(18, -34)
 shape = SubResource("CircleShape2D_xkhxw")
 debug_color = Color(0.288528, 0.615513, 0.391458, 0.42)
 
 [node name="Tought Bubble" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 visible = false
-offset_left = 11.0
-offset_top = -111.0
-offset_right = 110.0
-offset_bottom = -71.0
+z_index = 1
+offset_left = -130.0
+offset_top = -80.0
+offset_right = -31.0
+offset_bottom = -40.0
 
 [node name="Tought Label" type="Label" parent="Tought Bubble"]
 unique_name_in_owner = true

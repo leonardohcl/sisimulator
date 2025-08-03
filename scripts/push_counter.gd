@@ -16,6 +16,9 @@ func average() -> float:
 	if !_cycles: return 0
 	return float(_total_pushes)/float(_cycles)
 
+func time_left_for_clear() -> float:
+	return _timer.time_left
+
 func _ready() -> void:
 	_create_timer()
 

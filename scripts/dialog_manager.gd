@@ -16,6 +16,7 @@ func _ready():
 func _close_dialog():
 	visible = false
 	dialog_closed.emit()
+	_clear_options()
 
 func _open_dialog():
 	visible = true
@@ -40,6 +41,7 @@ func _answer_question(idx:int) -> int:
 func ask(display_name: String, content: String, options: Array[String]) -> int:
 	for idx in options.size():
 		var btn = Button.new()
+		btn.flat = true
 		btn.text = options[idx]
 		btn.pressed.connect(func (): _answer_question(idx))
 		actions_wrapper.add_child(btn)
