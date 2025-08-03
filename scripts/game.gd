@@ -54,20 +54,24 @@ func _add_second():
 	
 func _start_rain():
 	print("it's raining")
+	sisyphus.think("Oh great...", 3.0)
 	bolder.mass = 3.5
-	await get_tree().create_timer(randf_range(2, 3.75)).timeout
+	await get_tree().create_timer(randi_range(2, 4)).timeout
 	bolder.mass = 1
 	
 func _receive_energy():
-	var ans = await dialog_manager.ask("Energy drink man", "Want a sip?", ["yes", "no"])
+	var ans = await dialog_manager.ask("Lost Soul", "Want a sip?", ["yes", "no"])
 	if ans == 0:
 		if randf() > 0.5:
 			print("real redbull")
+			sisyphus.think("By the gods! That was Nectar! I feel stronger!", 3.5)
 			sisyphus.strength = 60
-			await get_tree().create_timer(4).timeout
+			await get_tree().create_timer(8).timeout
+			sisyphus.strength = 30
+			sisyphus.think("I think the effect of that Nectar is wearing off...", 3.5)
 		else:
 			print("fake redbull")
-			# show failed msg?
+			sisyphus.think("He was drinking just... water?", 3.5)
 
 func animate_bird(is_arriving: bool):
 	if is_arriving:
@@ -85,20 +89,37 @@ func animate_bird(is_arriving: bool):
 func _set_bird():
 	bolder.set_imovable(true)
 	animate_bird(true)
-	for i in 5:
+	for i in 8:
 		await PushCounter.push_added
 	animate_bird(false)
 	bolder.set_imovable(false)
 
+func _set_zagreus():
+	# animate? (show asset)
+	# Minha ideia era colocar um sprite ao lado e
+	# o balao de pensamento igual do sisyphus
+	await dialog_manager.ask("Zagreus", "Hello Sisyphus! Keep on keeping up", ["close"])
+	
+	
 func _thought():
-	sisyphus.think("sisyphus has a thought", 3.0)
+	var thoughts = [
+		"Did I lock the door back at home?",
+		"Did I leave my water bottle at the bottom of the hill?",
+		"Am I getting stronger, or is the boulder just getting heavier?",
+		"Is this even a good workout? Shouldn't I be doing more squats or something?",
+		"I wonder what the dog's doing right now...",
+		"Wait, am I actually getting any closer to the top, or am I stuck in some weird loop?",
+	] 
+	
+	sisyphus.think(thoughts[randi_range(0, len(thoughts))], 5)
 	
 func _generate_rand_event() -> Callable:
 	var events = [
 		_start_rain, 
 		_receive_energy, 
 		_set_bird, 
-		_thought
+		_thought,
+		_set_zagreus,
 	] #_cerberus, _persephone, _orpheus, _sleep, _reach_top]
 	return events.pick_random()
 
