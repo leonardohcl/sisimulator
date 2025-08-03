@@ -7,27 +7,25 @@
 
 [node name="Game" type="Node"]
 script = ExtResource("1_uwrxv")
-speed = 250.0
 
 [node name="Mountain" parent="." instance=ExtResource("2_yqjtg")]
-position = Vector2(0, 576)
-blocks_count = 5
+position = Vector2(-2, 498)
 
 [node name="Sisyphus" parent="." instance=ExtResource("3_lnu2h")]
-position = Vector2(32, 512)
+position = Vector2(32, 403)
 
 [node name="Bolder" parent="." instance=ExtResource("4_lbhrr")]
-position = Vector2(256, 485)
+position = Vector2(256, 376)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Average Label" type="Label" parent="CanvasLayer"]
+[node name="Average Label" type="Label" parent="UI"]
 unique_name_in_owner = true
 offset_right = 118.0
 offset_bottom = 23.0
 text = "0 pushes/cycle"
 
-[node name="Time Label" type="Label" parent="CanvasLayer"]
+[node name="Time Label" type="Label" parent="UI"]
 unique_name_in_owner = true
 anchors_preset = 1
 anchor_left = 1.0

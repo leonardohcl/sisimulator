@@ -1,8 +1,6 @@
 extends Node
 class_name Game
 
-@export var speed := 100.0
-
 var ellapsed_seconds := 0
 
 @onready var sisyphus: Node2D = $Sisyphus
@@ -17,7 +15,7 @@ func _ready() -> void:
 	_update_average_label()
 	PushCounter.cycle_ended.connect(_update_average_label)
 	_start_time_tracking()
-	mountain.reached_top.connect(_game_over)
+	mountain.slope_created.connect(_handle_new_slope_creates)
 
 func _game_over():
 	sisyphus.set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
@@ -72,3 +70,8 @@ func _generate_rand_event():
 	var events = [_start_rain, _receive_energy, _set_bird, _thought] #_cerberus, _persephone, _orpheus, _sleep, _reach_top]
 	await events.pick_random().call()
 	_generate_rand_event()
+
+## Does something when a new mountain section (Slope) is created
+func _handle_new_slope_creates(slope:Slope):
+	pass
+
