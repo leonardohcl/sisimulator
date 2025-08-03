@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://k47v8qwrolou"]
+
+[ext_resource type="Texture2D" uid="uid://by2jt8i51nmk7" path="res://images/floor.png" id="2_x6s7k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7e3mn"]
+size = Vector2(400, 100)
+
+[node name="Plateau" type="StaticBody2D"]
+collision_mask = 0
+
+[node name="Texture" type="Polygon2D" parent="."]
+unique_name_in_owner = true
+texture = ExtResource("2_x6s7k")
+polygon = PackedVector2Array(0, 0, 400, 0, 400, 100, 0, 100)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(201, 50)
+shape = SubResource("RectangleShape2D_7e3mn")

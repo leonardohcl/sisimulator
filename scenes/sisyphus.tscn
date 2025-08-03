@@ -32,6 +32,6 @@ position = Vector2(0, 54)
 shape = SubResource("CircleShape2D_o7kd7")
 
 [node name="Hand Collider" type="CollisionShape2D" parent="."]
-position = Vector2(36, -31)
+position = Vector2(34, -44)
 shape = SubResource("CircleShape2D_xkhxw")
 debug_color = Color(0.288528, 0.615513, 0.391458, 0.42)
