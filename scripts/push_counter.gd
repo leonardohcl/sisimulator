@@ -7,6 +7,7 @@ var _timer: Timer
 var _cycles := 0
 
 signal cycle_ended()
+signal push_added()
 
 func amount() -> int:
 	return _pushed
@@ -30,6 +31,7 @@ func _listen_to_push():
 	if Input.is_action_just_pressed("Push"):
 		_pushed += 1
 		_total_pushes += 1
+		push_added.emit()
 
 func _process(_delta: float) -> void:
 	_listen_to_push()
