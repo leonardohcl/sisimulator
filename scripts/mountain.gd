@@ -15,11 +15,11 @@ var slopes: Array[Slope]
 var thresholds_count := 0
 
 func _ready() -> void:
-	await _generate_slope(true)
+	await _generate_slope(true, false)
 	for x in max_slopes - 1:
 		await _generate_slope()
 
-func _generate_slope(is_plateau := false):
+func _generate_slope(is_plateau := false, allow_events := true):
 	if slopes.size() >= max_slopes:
 		_remove_oldest_slope()
 	
@@ -37,6 +37,7 @@ func _generate_slope(is_plateau := false):
 		slope.min_block_angle = min_block_angle
 		slope.max_block_angle = max_block_angle
 	
+	slope.allow_events = allow_events
 	if slopes.size():
 		slope.position = slopes[-1].position + slopes[-1].last_point()
 		

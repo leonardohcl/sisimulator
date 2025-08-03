@@ -12,11 +12,11 @@ script = ExtResource("1_uwrxv")
 [node name="Mountain" parent="." instance=ExtResource("2_yqjtg")]
 position = Vector2(-2, 498)
 
-[node name="Sisyphus" parent="." instance=ExtResource("3_lnu2h")]
-position = Vector2(32, 403)
-
 [node name="Bolder" parent="." instance=ExtResource("4_lbhrr")]
 position = Vector2(256, 376)
+
+[node name="Sisyphus" parent="." instance=ExtResource("3_lnu2h")]
+position = Vector2(32, 403)
 
 [node name="UI" type="CanvasLayer" parent="."]
 process_mode = 3

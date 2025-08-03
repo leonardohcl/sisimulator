@@ -76,14 +76,13 @@ func _set_bird():
 func _thought():
 	sisyphus.think("sisyphus has a thought", 3.0)
 	
-func _generate_rand_event():
-	# remove later:
-	await get_tree().create_timer(3).timeout
-	
+func _generate_rand_event() -> Callable:
 	var events = [_start_rain, _receive_energy, _set_bird, _thought] #_cerberus, _persephone, _orpheus, _sleep, _reach_top]
-	await events.pick_random().call()
-	_generate_rand_event()
+	return events.pick_random()
 
 ## Does something when a new mountain section (Slope) is created
 func _handle_new_slope_created(slope:Slope):
-	pass
+	if !slope.allow_events: return
+	var event = _generate_rand_event()
+	var trigger = slope.add_trigger_at(randf())
+	trigger.triggered.connect(event)

@@ -15,6 +15,21 @@ class_name Slope
 signal reached_threshold()
 
 var _points: Array[Vector2]
+var allow_events := true
+
+## Add an event trigger at closest point
+## returns trigger node
+func add_trigger_at(percentage: float, trigger_radius := 25.0, trigger_with_bolder := true, destroy_on_trigger := true) -> EventTrigger:
+	if !allow_events: return
+	var pos = clampf(percentage, 0, 1)
+	var idx = clampi(round(_points.size() * pos) - 1, 0, _points.size() - 1)
+	var trigger = EventTrigger.new()
+	trigger.activation_trigger_radius = trigger_radius
+	trigger.trigger_with_bolder = trigger_with_bolder
+	trigger.position = _points[idx]
+	trigger.destroy_on_trigger = destroy_on_trigger
+	add_child(trigger)
+	return trigger
 
 func width():
 	return last_point().x
